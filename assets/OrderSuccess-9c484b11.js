@@ -1,1 +1,0 @@
-import{P as t}from"./PaymentNavList-a2b5edc7.js";import{r as s,o as r,f as a,a as e,i as c}from"./index-39d5c409.js";const n={class:"container"},_=c("p",null,"完成訂購",-1),d={__name:"OrderSuccess",setup(i){return(m,p)=>{const o=s("router-view");return r(),a("div",n,[e(t),e(o),_])}}};export{d as default};
