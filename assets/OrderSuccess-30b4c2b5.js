@@ -1,1 +1,0 @@
-import{P as t}from"./PaymentNavList-ad1d6be0.js";import{r,o as s,f as a,a as e,i as c}from"./index-5d003039.js";import"https://leafletjs.com/examples/choropleth/us-states.js";const n={class:"container"},_=c("p",null,"完成訂購",-1),f={__name:"OrderSuccess",setup(i){return(m,p)=>{const o=r("router-view");return s(),a("div",n,[e(t),e(o),_])}}};export{f as default};
