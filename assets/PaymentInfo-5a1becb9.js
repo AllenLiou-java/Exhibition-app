@@ -1,0 +1,1 @@
+import{P as t}from"./PaymentNavList-a2b5edc7.js";import{r as a,o as s,f as n,a as e,i as r}from"./index-39d5c409.js";const c={class:"container"},_=r("p",null,"填寫付款資料",-1),d={__name:"PaymentInfo",setup(i){return(m,p)=>{const o=a("router-view");return s(),n("div",c,[e(t),e(o),_])}}};export{d as default};
