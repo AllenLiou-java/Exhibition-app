@@ -1,117 +1,95 @@
+<script setup>
+    import { ref, onBeforeMount, computed, watch } from 'vue'
+    import { storeToRefs } from 'pinia'
+    import { userDataStore } from '../../stores/userData'
+    import { updateUserInfoData } from '../../api/user'
+
+    import AvatarUpload from '../../components/user/AvatarUpload.vue'
+    import UserNavList from '@/components/user/UserNavList.vue'
+
+    //Step.1 Read user store Data
+    //Step.2 init user Data to ref value
+    //Step.3
+
+    // const user = userDataStore()
+    // const userRefs = storeToRefs(user)
+
+    // const avatar = ref(null)
+    // const avatarData = ref(null)
+
+    const userInfo = ref({})
+
+    //user name and email
+    const infoSubmit = (data) => {
+        console.log(data)
+        userInfo.value = { ...userInfo.value, ...data }
+    }
+</script>
+
 <template>
-    <div class="container">
-        <div class="row d-flex justify-content-between">
-            <div class="col-3">
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12 col-md-3">
                 <UserNavList />
             </div>
-            <div class="col-9">
-                <div class="p-3 my-4 bg-secondary bg-opacity-25 rounded-3">
-                    <h2 class="border-bottom border-dark pb-2">會員資料</h2>
-                    <form>
-                        <div class="row my-3">
-                            <div class="col-3">
-                                <img
-                                    src="https://fakeimg.pl/150x100/"
-                                    class="rounded"
-                                />
-                            </div>
-                            <div class="col-9 mt-auto">
-                                <label
-                                    for="inputEmail"
-                                    class="col-md-3 col-12 col-form-label"
-                                    >會員姓名</label
-                                >
-                                <div class="col-md-9 col-12">
-                                    <input
-                                        type="text"
-                                        id="inputName"
-                                        class="form-control"
-                                        placeholder="王小明"
-                                    />
+            <div class="col-12 col-md-9">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 p-3 border">
+                                <h2 class="border-bottom mb-4 fs-4 pb-3">會員資料</h2>
+                                <div class="col-md-4">
+                                    <AvatarUpload />
+                                </div>
+                                <div class="col-md-8">
+                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                    Expedita, harum! Voluptate saepe nisi assumenda repellendus
+                                    eligendi inventore rem reiciendis maxime aliquid. Adipisci
+                                    dolor, dolorem reprehenderit dolores assumenda aspernatur
+                                    laudantium dicta?
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label
-                                for="inputEmail"
-                                class="col-md-3 col-12 col-form-label"
-                                >會員電子郵件</label
-                            >
-                            <div class="col-md-9 col-12">
-                                <input
-                                    type="email"
-                                    id="inputEmail"
-                                    class="form-control"
-                                    placeholder="name@example.com"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label
-                                for="inputPhoto"
-                                class="col-md-3 col-12 col-form-label"
-                                >手機號碼</label
-                            >
-                            <div class="col-md-9 col-12">
-                                <input
-                                    type="password"
-                                    id="inputPhoto"
-                                    class="form-control"
-                                    placeholder="000-000000"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label
-                                for="inputPassword"
-                                class="col-md-3 col-12 col-form-label"
-                                >會員密碼</label
-                            >
-                            <div class="col-md-9 col-12">
-                                <input
-                                    type="password"
-                                    class="form-control"
-                                    id="inputPassword"
-                                    placeholder="設定新密碼"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label
-                                for="inputBirth"
-                                class="col-md-3 col-12 col-form-label"
-                                >出生年月日</label
-                            >
-                            <div class="col-md-9 col-12">
-                                <input
-                                    type="password"
-                                    id="inputBirth"
-                                    class="form-control"
-                                    placeholder="xxxx/xx/xx"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb">
-                            <div class="col-12">
-                                <button
-                                    type="submit"
-                                    class="btn btn-primary"
-                                >
-                                    送出
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
+
+                    <!-- email -->
+                    <!-- username -->
+                    <!-- user Avatar -->
+                    <!-- <VeeForm
+                        v-slot="{ errors, meta }"
+                        class="d-flex flex-column"
+                        ref="loginRef"
+                        @submit="infoSubmit"
+                    >
+                        <label
+                            class="text-dark"
+                            for="名稱"
+                            >名稱</label
+                        >
+                        <VeeField
+                            id="t1"
+                            :class="`form-control ${errors['名稱'] ? 'border-danger' : 'border'}`"
+                            placeholder="placeholder"
+                            name="名稱"
+                            type="text"
+                            rules="min:8"
+                        />
+                        <ErrorMessage
+                            v-if="errors['名稱']"
+                            as="p"
+                            class="text-danger errorMessage"
+                            name="名稱"
+                        />
+                        <p
+                            v-else
+                            class="errorMessage"
+                        ></p>
+                        <button type="submit">修改</button>
+                    </VeeForm> -->
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
-    import UserNavList from '@/components/user/UserNavList.vue'
-</script>
-
-<style lang="scss" scoped>
-    // scss在這編輯
-</style>
+<style lang="scss" scoped></style>

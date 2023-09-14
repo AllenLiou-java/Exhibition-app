@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mb-5">
         <!-- Step Bar -->
         <section class="my-5">
             <ul class="d-flex justify-content-between p-4 border rounded-4 bg-gray shadow-sm">
@@ -48,7 +48,7 @@
                     page === 1 ? 'd-block' : 'd-none'
                 }`"
             >
-                <div class="border rounded-4 shadow-sm p-4 h-100">
+                <div class="border rounded-4 shadow-sm p-4 h-100 d-flex flex-column">
                     <h2 class="mb-4 fs-4">建立訂單</h2>
                     <ul class="d-flex flex-column gap-4">
                         <li
@@ -60,15 +60,15 @@
                                 <div>
                                     <img
                                         class="img-box"
-                                        :src="item.coverImage"
-                                        :alt="item.name"
+                                        :src="item?.image"
+                                        :alt="item?.name"
                                     />
                                 </div>
                                 <!-- content -->
                                 <div class="d-flex flex-column">
-                                    <p class="fw-medium">{{ item.name }}</p>
-                                    <small>{{ item.date }}</small>
-                                    <small>{{ item.tickType.tickType }}</small>
+                                    <p class="fw-medium">{{ item?.name }}</p>
+                                    <small>{{ item?.date }}</small>
+                                    <small>{{ item?.ticketType.ticketType }}</small>
                                     <div class="d-flex gap-3 align-items-center">
                                         <!--  -->
                                         <button
@@ -80,7 +80,7 @@
                                         >
                                             -
                                         </button>
-                                        <p>{{ item.quantity }}</p>
+                                        <p>{{ item?.quantity }}</p>
                                         <!--  -->
                                         <button
                                             @click="quantityHandler"
@@ -92,17 +92,19 @@
                                             +
                                         </button>
                                     </div>
-                                    <p class="fs-6 fw-bold">NT$ {{ item.price * item.quantity }}</p>
+                                    <p class="fs-6 fw-bold">
+                                        NT$ {{ item?.price * item?.quantity }}
+                                    </p>
                                 </div>
                                 <!-- delButton -->
                                 <div></div>
                             </div>
                         </li>
                     </ul>
-                    <div class="mt-4">
+                    <div class="flex-grow-1 d-flex">
                         <button
                             @click="pageHandler('add')"
-                            class="btn btn-dark w-100"
+                            class="btn btn-dark w-100 border mt-auto"
                             type="button"
                         >
                             下一步
@@ -316,19 +318,19 @@
                                 <div>
                                     <img
                                         class="img-box-2"
-                                        :src="item.coverImage"
-                                        :alt="item.name"
+                                        :src="item?.image"
+                                        :alt="item?.name"
                                     />
                                 </div>
                                 <!-- content -->
                                 <div class="d-flex flex-column">
-                                    <p class="fw-medium">{{ item.name }}</p>
-                                    <small>{{ item.date }}</small>
-                                    <small>{{ item.tickType.tickType }}</small>
+                                    <p class="fw-medium">{{ item?.name }}</p>
+                                    <small>{{ item?.date }}</small>
+                                    <small>{{ item?.ticketType.ticketType }}</small>
                                 </div>
-                                <p>數量：{{ item.quantity }}</p>
+                                <p>數量：{{ item?.quantity }}</p>
                                 <p class="fs-6 fw-bold ms-auto">
-                                    NT$ {{ item.price * item.quantity }}
+                                    NT$ {{ item?.price * item?.quantity }}
                                 </p>
                                 <!-- delButton -->
                                 <div></div>

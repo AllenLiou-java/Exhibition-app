@@ -10,22 +10,28 @@
         <!-- main -->
         <div class="container position-relative px-3">
             <div class="mt-5 rounded-3">
+                <h1 class="fw-bold font-pathway fs-4">展覽檢索</h1>
+                <p class="font-pathway fw-bold fs-3 mb-2">Exhibition Search</p>
                 <!-- 展覽搜索 -->
-                <div class="mb-2">
-                    <input
-                        @input="searchKeyWordHandler"
-                        class="search-keyword border rounded-1 px-2 py-1"
-                        type="search"
-                        placeholder="輸入展覽名稱"
-                    />
-                </div>
-                <div class="mb-2">
-                    <p :class="`fs-7 ${!searchKeyWord.length > 0 && 'd-none'}`">
-                        搜索關鍵字：{{ searchKeyWord }}
-                    </p>
-                    <p class="fs-7">總搜索筆數({{ exhViewData.length }})</p>
-                </div>
+                <div class="d-flex flex-wrap gap-4 mb-2 border p-3 rounded-3 border-dark">
+                    <button
+                        class="btn btn-primary fs-7 d-flex flex-wrap justify-content-center"
+                        type="button"
+                        @click="filterShowHandler"
+                    >
+                        <FilterMenu />
+                        <span> 篩選器</span>
+                    </button>
 
+                    <div class="d-flex flex-column gap-1 flex-grow-1 justify-content-center">
+                        <input
+                            @input="searchKeyWordHandler"
+                            class="search-keyword border rounded-1 px-2 py-1"
+                            type="search"
+                            placeholder="輸入展覽名稱"
+                        />
+                    </div>
+                </div>
                 <!-- filter tag-->
                 <div class="d-flex gap-2 mb-4">
                     <div
@@ -63,18 +69,16 @@
                             {{ `${key === 'city' ? `城市 ${item}` : ''}` }}
                         </p>
                     </div>
-                    <!-- {{ key }} {{ item }} -->
+                </div>
+                <div class="mb-2">
+                    <p :class="`fs-7 ${!searchKeyWord.length > 0 && 'd-none'}`">
+                        搜索關鍵字：{{ searchKeyWord }}
+                    </p>
+                    <p class="fs-7">總搜索筆數({{ exhViewData.length }})</p>
                 </div>
             </div>
             <!-- 篩選器 控制btn -->
-            <button
-                class="btn"
-                type="button"
-                @click="filterShowHandler"
-            >
-                <FilterMenu />
-                <span> 篩選器</span>
-            </button>
+
             <!-- 展覽卡片 -->
             <div class="row">
                 <div
@@ -93,18 +97,26 @@
                             {{ item?.location.country }}
                         </div>
                         <!-- header -->
-                        <div class="rounded">
+                        <router-link
+                            class="text-dark rounded"
+                            :to="`viewExhibition/${item?.id}`"
+                        >
                             <img
                                 class="image-box hover-scale"
                                 :src="item?.image"
                                 :alt="item.name"
                             />
-                        </div>
+                        </router-link>
                         <!-- exh content -->
                         <div class="p-3">
                             <!-- exh title  -->
                             <div class="card-title fw-bold">
-                                <p>{{ item?.name }}</p>
+                                <router-link
+                                    class="text-dark"
+                                    :to="`viewExhibition/${item?.id}`"
+                                >
+                                    <p>{{ item?.name }}</p>
+                                </router-link>
                             </div>
                             <!-- exh-date -->
                             <div class="d-flex gap-2 mb-1">
@@ -171,7 +183,7 @@
     // import gsap from 'gsap'
     import _ from 'lodash'
     import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-    import { useRoute, useRouter } from 'vue-router'
+    import { useRoute, useRouter, RouterLink } from 'vue-router'
     import { exhibitionStore } from '../stores/exhibitionList'
     import Filter from '../components/Filter.vue'
     // import TwoRangeSlider from '../components/TwoRangeSlider.vue'
@@ -240,8 +252,8 @@
         isFilterShow.value = !isFilterShow.value
         if (isFilterShow.value === false) {
             const mediaQuery = window.matchMedia('(min-width:768px)')
-            console.log(mediaQuery.match)
-            if (mediaQuery.match) document.querySelector('body').style = 'overflow:hidden'
+            if (mediaQuery.matches === false)
+                document.querySelector('body').style = 'overflow:hidden'
         } else {
             document.querySelector('body').style = null
         }
@@ -306,11 +318,12 @@
     }, 300)
 
     //依據queryData篩選資料
-    //data,filter
+    //[FIX] 票價篩選有誤
     const filterExhList = () => {
         console.log('[filterExhList start]', queryData.value)
         let data = [...store.exhibitionList]
         const filter = queryData.value
+        data = data.filter((item) => item.endDate > new Date().getTime())
 
         if (Object.keys(filter).map((item) => item).length === 0) {
             console.log('全部展示')
@@ -323,8 +336,9 @@
             //dateValid, city,startDate, endDate, maxPrice, minPrice, type
             switch (key) {
                 case 'dateValid':
-                    if (value === false) return
                     data = data.filter((item) => item.endDate > new Date().getTime())
+                    if (value === false) return
+                    data = [...store.exhibitionList]
                     console.log('篩選中-1:dateValid', data)
                     break
                 case 'city':
@@ -341,10 +355,12 @@
                     if (value === 0) return
                     data = data.filter((item) => item.endDate <= value)
                     break
+                //[Fix] 篩選格式不對
                 case 'maxPrice':
                     if (value === 0) return
                     data = data.filter((item) => item.maxPrice >= value)
                     break
+                //[Fix] 篩選格式不對
                 case 'minPrice':
                     if (value === 0) return
                     data = data.filter((item) => item.minPice <= value)
@@ -370,10 +386,17 @@
     const resizeHandler = () => {
         const mediaQuery = window.matchMedia('(max-width:768px)')
         console.log(mediaQuery)
+
+        if (mediaQuery.matches === true) {
+            isFilterShow.value = true
+            document.querySelector('body').style = null
+        }
+
         if (mediaQuery.matches === false) {
             document.querySelector('body').style = null
         }
-        if (mediaQuery.matches === true && isFilterShow) {
+
+        if (mediaQuery.matches === true && isFilterShow.value === false) {
             document.querySelector('body').style = 'overflow:hidden'
         } else {
             document.querySelector('body').style = null
@@ -410,6 +433,7 @@
 
     onBeforeUnmount(() => {
         window.removeEventListener('resize', resizeHandler)
+        document.querySelector('body').style = null
     })
 
     watch(route, () => {

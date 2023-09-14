@@ -12,14 +12,11 @@
         },
         computed: {
             total() {
-                return this.cartDataInstance.cartData.length > 1
-                    ? this.cartDataInstance.cartData.reduce(
-                          (pre, next) => pre.price * pre.quantity + next.price * next.quantity
-                      )
-                    : this.cartDataInstance.cartData.length === 1
-                    ? this.cartDataInstance.cartData[0].price *
-                      this.cartDataInstance.cartData[0].quantity
-                    : 0
+                let total = 0
+                this.cartDataInstance.cartData.forEach((item) => {
+                    total += item.price * item.quantity
+                })
+                return total
             }
         },
         methods: {
@@ -89,19 +86,19 @@
                 >
                     <div>
                         <img
-                            class=""
-                            :src="item.coverImage"
+                            class="cart-item__image"
+                            :src="item.image"
                             :alt="item.name"
-                            width="125"
-                            height="125"
                         />
                     </div>
-                    <div>
-                        <p>{{ item.name }}</p>
-                        <small class="text-black-50"> {{ item.date }}</small>
-
+                    <div class="cart-item__content">
+                        <p class="item-title">{{ item.name }}</p>
+                        <small class="text-black-50">
+                            {{ new Date(item.startDate).toLocaleDateString() }} ~
+                            {{ new Date(item.endDate).toLocaleDateString() }}</small
+                        >
                         <div class="d-flex align-items-center gap-1">
-                            <span>{{ item.tickType.tickType }}</span>
+                            <span>{{ item.ticketType.ticketType }}</span>
                             <button
                                 class="btn border-0"
                                 @click="quantityHandler"
@@ -149,7 +146,14 @@
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
+    .item-title {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+    }
+
     .btn-cart {
         position: relative;
         p {
@@ -162,5 +166,15 @@
             background-color: red;
             color: #fff;
         }
+    }
+
+    .cart-item__content {
+        max-width: 210px;
+    }
+    .cart-item__image {
+        border-radius: 0.25rem;
+        width: 125px;
+        height: 125px;
+        object-fit: cover;
     }
 </style>
