@@ -8,6 +8,7 @@
 
     const user = userDataStore()
     const isShow = ref(false)
+    console.log(`[test heroku]`, import.meta.env?.VITE_heroku)
 </script>
 
 <template>
