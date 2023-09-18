@@ -17,16 +17,16 @@ export default defineConfig({
     },
     server: {
         // 啟動 server 時預設開啟的頁面
-        open: '/'
+        // open: '/'
     },
     build: {
         outDir: 'dist'
     },
     css: {
-        preprocessorOptions: {
-            scss: {
-                additionalData: '@import "@/assets/scss/abstracts/__abstracts-dir.scss";'
-            }
-        }
+        // preprocessorOptions: {
+        //     scss: {
+        //         additionalData: '@import "@/assets/scss/abstracts/__abstracts-dir.scss";'
+        //     }
+        // }
     }
 })

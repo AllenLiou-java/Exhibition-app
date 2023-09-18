@@ -1,125 +1,76 @@
 <template>
     <main>
-        <!-- <TheWelcome />
-        <TestToast />
-        <TestPopover class="mt-4 mb-4" /> -->
+        <!-- Map banner -->
         <div class="container">
-            <!-- D3 map -->
-            <!-- <d-3-map /> -->
             <D3Map />
         </div>
-        <div class="container">
-            <div>
-                <b-card
-                    no-body
-                    class="overflow-hidden border-0 mb-40"
+
+        <!--  排行 Top 10 -->
+        <section class="container">
+            <h2
+                class="fs-3 font-quantum d-inline-block px-4 py-2 mb-3 border border-black shadow-sm font-pathway fw-bold"
+            >
+                排行 Top 10
+            </h2>
+
+            <RecommendExh
+                :data="exhibition.exhibitionList"
+                :index="recommendViewIndex"
+            />
+            <Top10ExhCard @change-view="recommendViewHandler" />
+        </section>
+
+        <!-- 探索 -->
+        <section class="container mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2
+                    class="fs-3 font-quantum d-inline-block px-4 py-2 mb-3 border border-black shadow-sm font-pathway fw-bold"
                 >
-                    <b-row no-gutters>
-                        <b-col md="6">
-                            <b-card-img
-                                src="https://fakeimg.pl/356x160/"
-                                class="rounded-0 h-100"
-                            ></b-card-img>
-                        </b-col>
-                        <b-col md="6">
-                            <b-card-body title="專屬你的展覽清單 創建您的藝術之旅">
-                                <b-card-text>
-                                    通過將喜歡的展覽加入您的清單，您可以快速查看和比較展覽的時間、地點和主題，確保您不會錯過任何一個重要的藝術活動。
-                                </b-card-text>
-                            </b-card-body>
-                        </b-col>
-                    </b-row>
-                </b-card>
-                <b-card
-                    no-body
-                    class="overflow-hidden border-0 mb-40"
+                    探索
+                </h2>
+                <router-link
+                    to="/searchExhibition"
+                    class="fw-bold text-dark"
+                    >更多資訊</router-link
                 >
-                    <b-row no-gutters>
-                        <b-col md="6">
-                            <b-card-body title="多元收藏搜尋 尋找獨一無二的藝術珍品">
-                                <b-card-text>
-                                    專為藝術愛好者和收藏家設計的寶庫。我們為您提供多元的展覽搜尋體驗，不論您對古董、當代藝術還是民族文化感興趣，我們都能滿足您的需求。
-                                </b-card-text>
-                            </b-card-body>
-                        </b-col>
-                        <b-col md="6">
-                            <b-card-img
-                                src="https://fakeimg.pl/356x160/"
-                                class="rounded-0 h-100"
-                            ></b-card-img>
-                        </b-col>
-                    </b-row>
-                </b-card>
-                <b-card
-                    no-body
-                    class="overflow-hidden border-0 mb-40"
-                >
-                    <b-row no-gutters>
-                        <b-col md="6">
-                            <b-card-img
-                                src="https://fakeimg.pl/356x160/"
-                                class="rounded-0 h-100"
-                            ></b-card-img>
-                        </b-col>
-                        <b-col md="6">
-                            <b-card-body title="清楚易懂的展覽資訊 讓藝術世界觸手可及">
-                                <b-card-text>
-                                    我們深知尋找展覽資訊可能是一個繁瑣且耗時的過程，因此我們致力於提供清楚易懂的展覽資訊，讓藝術世界觸手可及。
-                                </b-card-text>
-                            </b-card-body>
-                        </b-col>
-                    </b-row>
-                </b-card>
-                <b-card
-                    no-body
-                    class="overflow-hidden border-0 mb-40"
-                >
-                    <b-row no-gutters>
-                        <b-col md="6">
-                            <b-card-body title="體驗全新的藝術尋覓之旅">
-                                <b-card-text>
-                                    無論您是追求藝術收藏的高手，還是對藝術有著初生之犢的好奇心，我們將竭誠為您提供多元、個性化的展覽搜索服務。
-                                </b-card-text>
-                            </b-card-body>
-                        </b-col>
-                        <b-col md="6">
-                            <b-card-img
-                                src="https://fakeimg.pl/356x160/"
-                                class="rounded-0 h-100"
-                            ></b-card-img>
-                        </b-col>
-                    </b-row>
-                </b-card>
             </div>
-            <div class="hot-information">
-                <div class="hot-title d-flex align-items-center">
-                    <h3 class="me-1">熱門展覽資訊</h3>
-                    <span>Start-2023</span>
-                </div>
-                <p>Hot Exhibition information</p>
+            <TypeSwiper />
+        </section>
+        <!-- meme block -->
+        <div class="container">
+            <div class="row py-5">
                 <Swiper />
             </div>
         </div>
     </main>
 </template>
 
-<style lang="scss">
-    $spacer: 1rem !default;
+<style lang="scss" scoped>
     .mb-40 {
-        margin-bottom: $spacer * 2.5;
+        margin-bottom: 40px;
     }
 </style>
 <script setup>
-    import { onMounted } from 'vue'
-    // import TheWelcome from '../components/TheWelcome.vue'
-    // import TestToast from '../components/TestToast.vue'
-    // import TestPopover from '../components/TestPopover.vue'
+    import { onMounted, ref } from 'vue'
     import Swiper from '../components/Swiper.vue'
-    import { useExhibitionStore } from '../stores/exhibitionList'
     import D3Map from '../components/D3Map.vue'
+    import RecommendExh from '../components/HomePage/RecommendExh.vue'
+    import TypeSwiper from '../components/HomePage/TypeSwiper/TypeSwiper.vue'
+    import Top10ExhCard from '../components/Homepage/Top10ExhCard.vue'
 
-    onMounted(() => {
-        const exhibitionStore = useExhibitionStore()
-        exhibitionStore.getExhibitionData()
+    // import { userDataStore } from '../stores/userData'
+    import { exhibitionStore } from '../stores/exhibitionList'
+
+    const exhibition = exhibitionStore()
+
+    const recommendViewIndex = ref(null)
+
+    const recommendViewHandler = (val) => {
+        console.log(val)
+        recommendViewIndex.value = val
+    }
+
+    onMounted(async () => {
+        await exhibition.getAllExhibitionData()
     })
 </script>

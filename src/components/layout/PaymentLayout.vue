@@ -9,12 +9,8 @@
 
 <template>
     <CartHeader />
-    <router-view class="content" />
+    <router-view />
     <AppFooter />
 </template>
 
-<style scoped>
-    .content {
-        min-height: calc(100vh - 96px - 56px);
-    }
-</style>
+<style scoped></style>

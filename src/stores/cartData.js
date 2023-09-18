@@ -32,7 +32,7 @@ export const useCartDataStore = defineStore('cartData', {
                 //
                 this.cartData.push(newItem)
             }
-            console.log('[ addCartItem]', this.cartData)
+            console.log('[addCartItem]', this.cartData)
         },
         //更新購物車指定商品數量
         updateCartItem(data, index) {
@@ -45,6 +45,9 @@ export const useCartDataStore = defineStore('cartData', {
             console.log('delete', index)
             this.cartData.splice(index, 1)
             localStorage.setItem('cart', JSON.stringify(this.cartData))
+        },
+        clearCart() {
+            this.cartData = []
         }
     }
 })
